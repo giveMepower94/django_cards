@@ -55,7 +55,7 @@ class AboutView(TemplateView):
     template_name = 'about.html'  # Аналогично указываем имя шаблона
     extra_context = info
 
-class CatalogView(MenuMixin, ListView):
+class CatalogView(ListView):
     model = Card  # Указываем модель, данные которой мы хотим отобразить
     template_name = 'cards/catalog.html'  # Путь к шаблону, который будет использоваться для отображения страницы
     context_object_name = 'cards'  # Имя переменной контекста, которую будем использовать в шаблоне
@@ -137,7 +137,7 @@ def get_detail_card_by_id(request, card_id):
 
     return render(request, 'cards/card_detail.html', card, status=200)
 
-class CardDetailView(MenuMixin, DetailView):
+class CardDetailView(DetailView):
     model = Card
     template_name = 'cards/card_detail.html'
     context_object_name = 'card'
@@ -154,7 +154,7 @@ class CardDetailView(MenuMixin, DetailView):
         return obj
 
 
-class CardUpdateView(MenuMixin, UpdateView):
+class CardUpdateView(UpdateView):
     model = Card  # Указываем модель, с которой работает представление
     form_class = CardModelForm  # Указываем класс формы для создания карточки
     template_name = 'cards/add_card.html'  # Указываем шаблон, который будет использоваться для отображения формы
@@ -164,7 +164,7 @@ class CardUpdateView(MenuMixin, UpdateView):
         return reverse_lazy('catalog', kwargs={'pk': self.object.pk})
 
 
-class AddCardCreateView(MenuMixin, CreateView):
+class AddCardCreateView(CreateView):
     model = Card  # Указываем модель, с которой работает представление
     form_class = CardModelForm  # Указываем класс формы для создания карточки
     template_name = 'cards/add_card.html'  # Указываем шаблон, который будет использоваться для отображения формы
