@@ -22,6 +22,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 info = {
@@ -154,21 +155,24 @@ class CardDetailView(DetailView):
         return obj
 
 
-class CardUpdateView(UpdateView):
+class CardUpdateView(LoginRequiredMixin, UpdateView):
     model = Card  # Указываем модель, с которой работает представление
     form_class = CardModelForm  # Указываем класс формы для создания карточки
     template_name = 'cards/add_card.html'  # Указываем шаблон, который будет использоваться для отображения формы
+    login_url = reverse_lazy('users:login')  # Для перенаправления на главную страницу
+    redirect_field_name = 'next'
 
     # После успешного обновления карточки, пользователь будет перенаправлен на страницу этой карточки
     def get_success_url(self):
         return reverse_lazy('catalog', kwargs={'pk': self.object.pk})
 
 
-class AddCardCreateView(CreateView):
+class AddCardCreateView(LoginRequiredMixin, CreateView):
     model = Card  # Указываем модель, с которой работает представление
     form_class = CardModelForm  # Указываем класс формы для создания карточки
     template_name = 'cards/add_card.html'  # Указываем шаблон, который будет использоваться для отображения формы
-    success_url = reverse_lazy('catalog')  # URL для перенаправления после успешного создания карточки
+    success_url = reverse_lazy('catalog')
+    login_url = reverse_lazy('users:login') # Для перенаправления на главную страницу
 
     def form_valid(self, form):
         # Метод вызывается, если форма валидна
