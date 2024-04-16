@@ -24,7 +24,7 @@ class Card(models.Model):
      favorites = models.IntegerField(default=0, db_column="Favorites")
      check_status = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),default=Status.UNCHECKED, db_column='CheckStatus')
      tags = models.ManyToManyField('Tag', related_name='cards', through="CardTags")
-     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, db_column='AuthorID', related_name='cards', null=True, defalt=None, verbose_name=_('Автор'))
+     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, db_column='AuthorID', related_name='cards', null=True, default=None, verbose_name='Автор')
 
 
      # Расширение нашего класса
