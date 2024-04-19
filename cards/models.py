@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 import logging
+from django.contrib.auth import get_user_model
 
 # Создаем или получаем экземпляр логгера
 logger = logging.getLogger(__name__)
@@ -23,6 +24,8 @@ class Card(models.Model):
      favorites = models.IntegerField(default=0, db_column="Favorites")
      check_status = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),default=Status.UNCHECKED, db_column='CheckStatus')
      tags = models.ManyToManyField('Tag', related_name='cards', through="CardTags")
+     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, db_column='AuthorID', related_name='cards', null=True, default=None, verbose_name='Автор')
+
 
      # Расширение нашего класса
      class Meta:

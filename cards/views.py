@@ -173,11 +173,12 @@ class AddCardCreateView(LoginRequiredMixin, CreateView):
     template_name = 'cards/add_card.html'  # Указываем шаблон, который будет использоваться для отображения формы
     success_url = reverse_lazy('catalog')
     login_url = reverse_lazy('users:login') # Для перенаправления на главную страницу
+    redirect_field_name = 'next'
 
     def form_valid(self, form):
-        # Метод вызывается, если форма валидна
-        # Здесь можно добавить дополнительную логику обработки данных формы перед сохранением объекта
+        form.instance.author = self.request.user
         return super().form_valid(form)
+
 
 
 def preview_card_ajax(request):
