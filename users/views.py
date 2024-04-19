@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginUserForm
+from .forms import LoginUserForm, RegisterUserForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-
+from  django.views.generic import CreateView
 # Create your views here.
 
 class LoginUser(LoginView):
@@ -18,5 +18,8 @@ class LogoutUser(LogoutView):
     next_page = reverse_lazy('users:login')
 
 
-def signup_user(request):
-    pass
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'users/register.html'
+    extra_context = {'title': 'Регистрация'}
+    success_url = reverse_lazy('users:login')
