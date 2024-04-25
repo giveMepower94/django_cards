@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import LoginUserForm, RegisterUserForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from  django.views.generic import CreateView
+from  django.views.generic import CreateView, TemplateView
 # Create your views here.
 
 class LoginUser(LoginView):
@@ -22,4 +22,9 @@ class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'users/register.html'
     extra_context = {'title': 'Регистрация'}
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy('users:register_done')
+
+
+class RegisterDone(TemplateView):
+    template_name = 'users/register_done.html'
+    extra_context = {'title': 'Регистрация завершена!'}
