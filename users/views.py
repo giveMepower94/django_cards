@@ -12,7 +12,11 @@ class LoginUser(LoginView):
     extra_context = {'title': 'Авторизация'}
 
     def get_success_url(self):
-        return reverse_lazy('index')
+        next_url = self.request.POST.get('next', '').strip()
+        if next_url:
+            return next_url
+        return reverse_lazy('catalog')
+
 
 class LogoutUser(LogoutView):
     next_page = reverse_lazy('users:login')
