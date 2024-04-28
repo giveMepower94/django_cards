@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 app_name = 'users'  # Пространство имен для приложения
 
 
@@ -10,4 +11,6 @@ urlpatterns = [
     path('signup/', views.RegisterUser.as_view(), name='signup'),
     path('register_done/', views.RegisterDone.as_view(), name='register_done'),
     path('profile/', views.ProfileUser.as_view(), name='profile'),
+    path('password_change/', views.UserPasswordChange.as_view(), name='password_change'),
+    path('password_change_done/', views.UserPasswordChangeDone.as_view(), name='password_change_done'),
 ]

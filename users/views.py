@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginUserForm, RegisterUserForm, ProfileUserForm
-from django.contrib.auth.views import LoginView, LogoutView
+from .forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import reverse_lazy
 from  django.views.generic import CreateView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -47,3 +47,14 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class UserPasswordChange(PasswordChangeView):
+    form_class = UserPasswordChangeForm
+    template_name = 'users/password_change_form.html'
+    success_url = reverse_lazy('users:password_change_done')
+
+
+class UserPasswordChangeDone(TemplateView):
+    template_name = 'users/password_change_done.html'
+    extra_context = {'title': 'Пароль изменен успешно'}
