@@ -3,9 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import reverse_lazy
-from  django.views.generic import CreateView, TemplateView, UpdateView
+from  django.views.generic import CreateView, TemplateView, UpdateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from cards.models import Card
 # Create your views here.
 
 class LoginUser(LoginView):
@@ -58,3 +59,12 @@ class UserPasswordChange(PasswordChangeView):
 class UserPasswordChangeDone(TemplateView):
     template_name = 'users/password_change_done.html'
     extra_context = {'title': 'Пароль изменен успешно'}
+
+
+class UserCardsView(ListView):
+    model = Card
+    template_name = 'users/profile_cards.html'
+    context_object_name = 'cards'
+
+    def get_queryset(self):
+        return Card.objects.filter(author=self.request.user).order_by('-upload_date')
